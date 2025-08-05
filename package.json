@@ -1,0 +1,48 @@
+{
+  "type": "module",
+  "scripts": {
+    "dev": "tsdown --watch",
+    "build": "tsdown",
+    "lint": "pnpm prettier && pnpm eslint && pnpm tscheck",
+    "eslint": "eslint . --cache --fix",
+    "tscheck": "tsc --noEmit",
+    "prettier": "prettier . --cache --write --ignore-unknown",
+    "preinstall": "npx only-allow pnpm",
+    "postinstall": "simple-git-hooks"
+  },
+  "dependencies": {},
+  "devDependencies": {
+    "@commitlint/cli": "^19.8.1",
+    "@commitlint/config-conventional": "^19.8.1",
+    "@eslint/js": "^9.32.0",
+    "@types/eslint-config-prettier": "^6.11.3",
+    "@types/node": "^24.2.0",
+    "eslint": "^9.32.0",
+    "eslint-config-prettier": "^10.1.8",
+    "globals": "^16.3.0",
+    "lint-staged": "^16.1.4",
+    "prettier": "^3.6.2",
+    "simple-git-hooks": "^2.13.1",
+    "tsdown": "^0.13.3",
+    "typescript": "^5.9.2",
+    "typescript-eslint": "^8.39.0"
+  },
+  "commitlint": {
+    "extends": [
+      "@commitlint/config-conventional"
+    ]
+  },
+  "simple-git-hooks": {
+    "pre-commit": "npx lint-staged",
+    "commit-msg": "npx --no -- commitlint --edit $1"
+  },
+  "lint-staged": {
+    "*": [
+      "prettier --cache --write --ignore-unknown",
+      "eslint --cache --fix"
+    ],
+    "**/*.{ts,tsx}": [
+      "sh -c 'pnpm tscheck'"
+    ]
+  }
+}
